@@ -1,6 +1,7 @@
 import hyRequest from '../index' //导入请求函数
 
-import { IAccount, IDataType, ILoginResult } from './types'
+import { IAccount, ILoginResult } from './types'
+import {IDataType} from '../types'
 
 enum LoginAPI {  //枚举登录相关的API类型
   AccountLogin = '/login',

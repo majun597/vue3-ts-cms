@@ -4,6 +4,7 @@ import type {RouteRecordRaw} from 'vue-router'
 
 import localCache from '@/utils/cache'
 // import router from '@/router'
+import {firstMenu} from '@/utils/map-menu'
 
 //映射关系
 const routes: RouteRecordRaw[] = [
@@ -13,12 +14,21 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/login',
+    name: 'login',
     //懒加载的方式
     component: () => import('@/views/login/login.vue')
   },
   {
     path: '/main',
+    name: 'main',
     component: () => import('@/views/main/main.vue')
+    //children:[] -> 根据usermenu来决定
+  },
+  {
+    //当页面找不到的时候跳转至这个not found页面
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () => import('@/views/not-found/not-found.vue')
   },
 ]
 
@@ -34,6 +44,10 @@ router.beforeEach((to) => {//to.path代表即将要跳转过去的路径
     if(!token) {
       return '/login'
     }
+  }
+
+  if(to.path === '/main') {
+    return firstMenu.url
   }
 })
 

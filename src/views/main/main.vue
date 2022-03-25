@@ -10,7 +10,11 @@
           <!-- 用 @foldChange="handleFoldChange"进行监听 来处理foldchange发生改变 -->
           <nav-header @foldChange="handleFoldChange"></nav-header>
         </el-header>
-        <el-main class="page-content">Main</el-main>
+        <el-main class="page-content">
+          <div class="page-info">
+            <router-view></router-view>
+          </div>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -63,6 +67,10 @@ export default defineComponent({
 .page-content {
   height: calc(100% - 48px);
   text-align: center;
+}
+.page-info {
+  background-color: #fff;
+  border-radius: 5px;
 }
 
 .el-header,

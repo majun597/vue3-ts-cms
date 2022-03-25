@@ -5,7 +5,7 @@ import axios from 'axios'
 //引入类型约束
 import { AxiosInstance } from "axios";
 
-import type {HYRequestInterceptors, HYRequestConfig} from './type'
+import type {HYRequestInterceptors, HYRequestConfig} from './types'
 
 import {ElLoading} from 'element-plus'
 import {LoadingInstance} from 'element-plus/lib/components/loading/src/loading'
@@ -84,7 +84,7 @@ class HYRequest {
   )
 }
 
-request<T>(config: HYRequestConfig): Promise<T> {
+request<T = any>(config: HYRequestConfig): Promise<T> {
     return new Promise((resolve, reject) => {
       //1. 单个请求对请求config的处理
       if(config.interceptors?.requestInterceptor) {
@@ -116,25 +116,25 @@ request<T>(config: HYRequestConfig): Promise<T> {
     })
   }
 
-  get<T>(config: HYRequestConfig): Promise<T> {
+  get<T = any>(config: HYRequestConfig): Promise<T> {
     return this.request({
       ...config,
       method: "GET"
     });
   }
-  post<T>(config: HYRequestConfig): Promise<T> {
+  post<T = any>(config: HYRequestConfig): Promise<T> {
     return this.request({
       ...config,
       method: "POST"
     });
   }
-  delete<T>(config: HYRequestConfig): Promise<T> {
+  delete<T = any>(config: HYRequestConfig): Promise<T> {
     return this.request({
       ...config,
       method: "DELETE"
     });
   }
-  patch<T>(config: HYRequestConfig): Promise<T> {
+  patch<T = any>(config: HYRequestConfig): Promise<T> {
     return this.request({
       ...config,
       method: "PATCH"

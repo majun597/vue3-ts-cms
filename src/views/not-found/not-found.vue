@@ -1,6 +1,6 @@
 <template>
-  <div class="menu">
-    <h2>menu</h2>
+  <div>
+    <h2>page not found~</h2>
   </div>
 </template>
 
@@ -8,11 +8,14 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'hy-menu',
-  setup() {
+  setup () {
+
+
     return {}
   }
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

@@ -11,15 +11,20 @@ import 'element-plus/dist/index.css' //引用element-plus里面的样式
 import router from "./router";
 import store from "./store";
 import { setupStore } from "./store";
+import { globalRegister } from "./global/index";
 
 // import hyRequest from './service/index'
 
 const app =  createApp(App);
 
-app.use(router); //注册路由
-app.use(store); //注册store
 app.use(ElementPlus)
+
+app.use(store); //注册store
 setupStore()
+
+app.use(router); //注册路由
+
+app.use(globalRegister)
 
 app.mount("#app");
 

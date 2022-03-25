@@ -6,12 +6,14 @@ import {
    requestUserMenusByRoleId
   } from '@/service/login/login' //导入账号登录请求 和 用户信息获取请求 和 获取用户菜单信息请求
 
-  import router from '@/router'
+import router from '@/router'
+import localCache from '@/utils/cache'
+import {mapMenusToRoutes} from '@/utils/map-menu' //导入usermenu和路由的映射关系的函数
 
 import { IAccount } from '@/service/login/types'
 import { IRootState } from '../types'
 import { ILoginState } from './types'
-import localCache from '@/utils/cache'
+
 
 const loginModule: Module<ILoginState, IRootState> = {  //规定必须传入这两个泛型
   namespaced: true, //命名空间主要目的是将一个模块内部再进行作用域的划分，防止一些命名冲突的问题
@@ -35,6 +37,13 @@ const loginModule: Module<ILoginState, IRootState> = {  //规定必须传入这�
     //定义changeUserMenus存储改变后的用户菜单的信息
     changeUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
+
+      //将usermenus映射到routes中
+      const routes = mapMenusToRoutes(userMenus) //使用mapMenusToRoutes函数
+      //然后将routes添加到router.main.children中
+      routes.forEach((route) => { //遍历routes里面的route
+        router.addRoute('main', route) //.addRoute()表示动态添加路由 'main'代表一级路由，然后加路由添加到一级路由的children里面
+      })
     }
   },
   actions: {
@@ -52,7 +61,7 @@ const loginModule: Module<ILoginState, IRootState> = {  //规定必须传入这�
       console.log(loginResult) //打印登录结果
       const {id, token} = loginResult.data
       commit('changeToken', token)
-      console.log(loginResult.data.id, loginResult.data.token) //打印携带的id和token
+      // console.log(loginResult.data.id, loginResult.data.token) //打印携带的id和token
       localCache.setCache('token', token) //将token进行本地缓存
 
       //2.请求用户信息
@@ -64,7 +73,7 @@ const loginModule: Module<ILoginState, IRootState> = {  //规定必须传入这�
       //3. 获取相对应用户的菜单栏
       const UserMenusResult = await requestUserMenusByRoleId(userInfo.role.id)
       const UserMenus = UserMenusResult.data
-      console.log(UserMenus) //打印用户菜单信息
+      // console.log(UserMenus) //打印用户菜单信息
       commit('changeUserMenus', UserMenus)
       localCache.setCache('userMenus', UserMenus)//将userMenus进行本地缓存
 
